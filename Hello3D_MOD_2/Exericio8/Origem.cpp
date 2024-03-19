@@ -57,7 +57,7 @@ const GLchar* fragmentShaderSource = "#version 450\n"
 "color = finalColor;\n"
 "}\n\0";
 
-bool rotateX_A=false, rotateX_D = false, rotateY_I=false, rotateY_J = false, rotateZ_W = false, rotateZ_S = false;
+bool rotateX_A = false, rotateX_D = false, rotateY_I = false, rotateY_J = false, rotateZ_W = false, rotateZ_S = false;
 
 // Função MAIN
 int main()
@@ -260,6 +260,16 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		rotateZ_S = true;
 	}
 
+	if (key == GLFW_KEY_H && action == GLFW_PRESS)
+	{
+		rotateX_A = false;
+		rotateX_D = false;
+		rotateY_I = false;
+		rotateY_J = false;
+		rotateZ_W = false;
+		rotateZ_S = false;
+	}
+
 
 
 }
@@ -326,31 +336,36 @@ int setupGeometry()
 	GLfloat vertices[] = {
 
 		//Base da pirâmide: 2 triângulos
-		//x    y    z    r    g    b
-		-0.5, -0.5, -0.5, 1.0, 1.0, 0.0,
-		-0.5, -0.5,  0.5, 0.0, 1.0, 1.0,
-		 0.5, -0.5, -0.5, 1.0, 0.0, 1.0,
+		//x    y    z      r    g    b
+						   // yellow 1
+		-0.5, -0.5, -0.5,  1.0,  1.0,  0.0,
+		-0.5, -0.5,  0.5,  1.0,  1.0,  0.0,
+		 0.5, -0.5, -0.5,  1.0,  1.0,  0.0,
 
-		 -0.5, -0.5, 0.5, 1.0, 1.0, 0.0,
-		  0.5, -0.5,  0.5, 0.0, 1.0, 1.0,
-		  0.5, -0.5, -0.5, 1.0, 0.0, 1.0,
+						   // yellow 2
+		-0.5, -0.5,  0.5,  0.7,  0.7,  0.0,
+		 0.5, -0.5,  0.5,  0.7,  0.7,  0.0,
+		 0.5, -0.5, -0.5,  0.7,  0.7,  0.0,
 
-		 //
-		 -0.5, -0.5, -0.5, 1.0, 1.0, 0.0,
-		  0.0,  0.5,  0.0, 1.0, 1.0, 0.0,
-		  0.5, -0.5, -0.5, 1.0, 1.0, 0.0,
+				     	   // magenta
+		-0.5, -0.5, -0.5,  1.0,  0.0,  1.0,
+		-0.5,  0.5, -0.5,  1.0,  0.0,  1.0,
+		 0.5, -0.5, -0.5,  1.0,  0.0,  1.0,
 
-		  -0.5, -0.5, -0.5, 1.0, 0.0, 1.0,
-		  0.0,  0.5,  0.0, 1.0, 0.0, 1.0,
-		  -0.5, -0.5, 0.5, 1.0, 0.0, 1.0,
+				    	   // magenta 2
+		 0.5, -0.5, -0.5,  0.7,  0.0,  0.7,
+		-0.5,  0.5, -0.5,  0.7,  0.0,  0.7,
+		 0.5,  0.5, -0.5,  0.7,  0.0,  0.7,
 
-		   -0.5, -0.5, 0.5, 1.0, 1.0, 0.0,
-		  0.0,  0.5,  0.0, 1.0, 1.0, 0.0,
-		  0.5, -0.5, 0.5, 1.0, 1.0, 0.0,
+				     	   // cyan
+		 0.5,  0.5, -0.5,  0.0,  1.0,  1.0,
+		 0.5,  0.5,  0.5,  0.0,  1.0,  1.0,
+		 0.5, -0.5, -0.5,  0.0,  1.0,  1.0,
 
-		   0.5, -0.5, 0.5, 0.0, 1.0, 1.0,
-		  0.0,  0.5,  0.0, 0.0, 1.0, 1.0,
-		  0.5, -0.5, -0.5, 0.0, 1.0, 1.0,
+					       // cyan 2
+		 0.5, -0.5,  0.5,  0.0,  0.7,  0.7,
+		 0.5,  0.5,  0.5,  0.0,  0.7,  0.7,
+		 0.5, -0.5, -0.5,  0.0,  0.7,  0.7,
 
 
 	};
