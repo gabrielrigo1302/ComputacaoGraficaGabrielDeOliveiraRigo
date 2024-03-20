@@ -35,6 +35,7 @@ int setupGeometry();
 // Dimensões da janela (pode ser alterado em tempo de execução)
 const GLuint WIDTH = 1000, HEIGHT = 1000;
 
+bool rotateX_A = false, rotateX_D = false, rotateY_I = false, rotateY_J = false, rotateZ_W = false, rotateZ_S = false;
 // Código fonte do Vertex Shader (em GLSL): ainda hardcoded
 const GLchar* vertexShaderSource = "#version 450\n"
 "layout (location = 0) in vec3 position;\n"
@@ -57,7 +58,6 @@ const GLchar* fragmentShaderSource = "#version 450\n"
 "color = finalColor;\n"
 "}\n\0";
 
-bool rotateX_A = false, rotateX_D = false, rotateY_I = false, rotateY_J = false, rotateZ_W = false, rotateZ_S = false;
 
 // Função MAIN
 int main()
@@ -174,12 +174,12 @@ int main()
 		// Poligono Preenchido - GL_TRIANGLES
 		
 		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 18);
+		glDrawArrays(GL_TRIANGLES, 0, 3 * 12);
 
 		// Chamada de desenho - drawcall
 		// CONTORNO - GL_LINE_LOOP
 		
-		glDrawArrays(GL_POINTS, 0, 18);
+		glDrawArrays(GL_POINTS, 0, 3 * 12);
 		glBindVertexArray(0);
 
 		// Troca os buffers da tela
@@ -336,38 +336,59 @@ int setupGeometry()
 	GLfloat vertices[] = {
 
 		//Base da pirâmide: 2 triângulos
-		//x    y    z      r    g    b
-						   // yellow 1
-		-0.5, -0.5, -0.5,  1.0,  1.0,  0.0,
-		-0.5, -0.5,  0.5,  1.0,  1.0,  0.0,
-		 0.5, -0.5, -0.5,  1.0,  1.0,  0.0,
+		//x    y     z     r     g     b
+		-0.5, -0.5, -0.5,  1.0,  0.0,  0.0,
+		-0.5, -0.5,  0.5,  1.0,  0.0,  0.0,
+		 0.5, -0.5, -0.5,  1.0,  0.0,  0.0,
 
-						   // yellow 2
-		-0.5, -0.5,  0.5,  0.7,  0.7,  0.0,
-		 0.5, -0.5,  0.5,  0.7,  0.7,  0.0,
-		 0.5, -0.5, -0.5,  0.7,  0.7,  0.0,
+		-0.5, -0.5,  0.5,  0.7,  0.0,  0.0,
+		 0.5, -0.5,  0.5,  0.7,  0.0,  0.0,
+		 0.5, -0.5, -0.5,  0.7,  0.0,  0.0,
 
-				     	   // magenta
-		-0.5, -0.5, -0.5,  1.0,  0.0,  1.0,
-		-0.5,  0.5, -0.5,  1.0,  0.0,  1.0,
-		 0.5, -0.5, -0.5,  1.0,  0.0,  1.0,
+		 // FRENTE (COR 'FORTE')
+		-0.5, -0.5, -0.5,  0.0,  1.0,  0.0,
+		 0.5,  0.5, -0.5,  0.0,  1.0,  0.0,
+		 0.5, -0.5, -0.5,  0.0,  1.0,  0.0,
 
-				    	   // magenta 2
-		 0.5, -0.5, -0.5,  0.7,  0.0,  0.7,
-		-0.5,  0.5, -0.5,  0.7,  0.0,  0.7,
-		 0.5,  0.5, -0.5,  0.7,  0.0,  0.7,
+		-0.5, -0.5, -0.5,  0.0,  0.7,  0.0,
+		 0.5,  0.5, -0.5,  0.0,  0.7,  0.0,
+		-0.5,  0.5, -0.5,  0.0,  0.7,  0.0,
 
-				     	   // cyan
-		 0.5,  0.5, -0.5,  0.0,  1.0,  1.0,
+		 // LATERAL ESQUERDA (COR 'FORTE')
+		-0.5, -0.5, -0.5,  0.0,  0.0,  1.0,
+		-0.5,  0.5,  0.5,  0.0,  0.0,  1.0,
+		-0.5, -0.5,  0.5,  0.0,  0.0,  1.0,
+
+		-0.5, -0.5, -0.5,  0.0,  0.0,  0.7,
+		-0.5,  0.5,  0.5,  0.0,  0.0,  0.7,
+		-0.5,  0.5, -0.5,  0.0,  0.0,  0.7,
+
+		 // INVERSO CHAO (COR 'FRACA')
+		-0.5,  0.5, -0.5,  1.0,  1.0,  0.0,
+		-0.5,  0.5,  0.5,  1.0,  1.0,  0.0,
+		 0.5,  0.5, -0.5,  1.0,  1.0,  0.0,
+
+		-0.5,  0.5,  0.5,  0.7,  0.7,  0.0,
+		 0.5,  0.5,  0.5,  0.7,  0.7,  0.0,
+		 0.5,  0.5, -0.5,  0.7,  0.7,  0.0,
+
+		  // INVERSO FRENTE (COR 'FRACA')
+		-0.5, -0.5,  0.5,  0.0,  1.0,  1.0,
 		 0.5,  0.5,  0.5,  0.0,  1.0,  1.0,
-		 0.5, -0.5, -0.5,  0.0,  1.0,  1.0,
+		 0.5, -0.5,  0.5,  0.0,  1.0,  1.0,
 
-					       // cyan 2
-		 0.5, -0.5,  0.5,  0.0,  0.7,  0.7,
+		-0.5, -0.5,  0.5,  0.0,  0.7,  0.7,
 		 0.5,  0.5,  0.5,  0.0,  0.7,  0.7,
-		 0.5, -0.5, -0.5,  0.0,  0.7,  0.7,
+		-0.5,  0.5,  0.5,  0.0,  0.7,  0.7,
 
-
+		  // INVERSO LATERAL ESQUERDA (COR 'FRACA')
+		 0.5, -0.5, -0.5,  1.0,  0.0,  1.0,
+		 0.5,  0.5,  0.5,  1.0,  0.0,  1.0,
+		 0.5, -0.5,  0.5,  1.0,  0.0,  1.0,
+ 
+		 0.5, -0.5, -0.5,  0.7,  0.0,  0.7,
+		 0.5,  0.5,  0.5,  0.7,  0.0,  0.7,
+		 0.5,  0.5, -0.5,  0.7,  0.0,  0.7,
 	};
 
 	GLuint VBO, VAO;
